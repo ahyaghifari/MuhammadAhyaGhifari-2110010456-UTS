@@ -203,14 +203,17 @@ public class FrameImportExportResepMasakan extends javax.swing.JFrame {
         
             // =========================================================== IMPORT ===========================================================
             if(context.equals("IMPORT")){
-                FrameAplikasiResepMasakan.resepResepMasakan.clear(); // clear atau mengosongkan array list resep terlebih dahulu
-                
+             
                 // IMPORT FILE DARI FILE TEXT(txt)
                 if(file_as.equals("txt")){
                    try{
                        File fileResep = new File("resep-masakan-importable.txt"); // mengambil file
-                       Scanner resepReader = new Scanner(fileResep); // scan file
-                       while(resepReader.hasNextLine()){ // mengambil keseluruhan baris dari resep sesuai bari
+                       if(fileResep.exists() && !fileResep.isDirectory()){
+                           
+                        FrameAplikasiResepMasakan.resepResepMasakan.clear(); // clear atau mengosongkan array list resep terlebih dahulu
+                           
+                        Scanner resepReader = new Scanner(fileResep); // scan file
+                        while(resepReader.hasNextLine()){ // mengambil keseluruhan baris dari resep sesuai bari
                            String lines = resepReader.nextLine(); // mengambil nilai baris
                            
                            String[] data = lines.split(";"); // mengubah string menjadi array dengan pemisah ; (titik koma)
@@ -226,6 +229,9 @@ public class FrameImportExportResepMasakan extends javax.swing.JFrame {
                            FrameAplikasiResepMasakan.resepResepMasakan.add(resep);
                        }
                        dispose();
+                       }else{
+                           JOptionPane.showMessageDialog(this, "File import text tidak ditemukan. Export terlebih dahulu", "Import", JOptionPane.ERROR_MESSAGE);
+                       }
                    }catch(IOException e){
                        JOptionPane.showMessageDialog(this, "Resep gagal di import", "Import", JOptionPane.ERROR_MESSAGE);
                        System.out.println("ERROR : " + e);
@@ -237,15 +243,23 @@ public class FrameImportExportResepMasakan extends javax.swing.JFrame {
                        Gson gson = new Gson(); // inisialisasi objek gson
                        TypeToken<ArrayList<ResepMasakan>> resepType = new TypeToken<ArrayList<ResepMasakan>>(){}; // mengambil tipe untuk bentuk konversi json
 
-                       FileReader fileResep = new FileReader("resep-masakan.json"); // mengambil dan membaca file json
+                       File checkFile = new File("resep-masakan.json"); 
+                        if(checkFile.exists() && !checkFile.isDirectory()){ // check terlebih dahulu apakah file sudah ada
 
-                       ArrayList<ResepMasakan> resep = gson.fromJson(fileResep, resepType.getType()); // konversi dari file sesuai tipe yang sudah ditentukan
+                        FrameAplikasiResepMasakan.resepResepMasakan.clear(); // clear atau mengosongkan array list resep terlebih dahulu
+                            
+                        FileReader fileResep = new FileReader("resep-masakan.json"); // mengambil dan membaca file json
 
-                       // Memasukkan setiap nilai json ke dalam array list resep program
-                       for(ResepMasakan rm : resep){
-                           FrameAplikasiResepMasakan.resepResepMasakan.add(rm);
+                        ArrayList<ResepMasakan> resep = gson.fromJson(fileResep, resepType.getType()); // konversi dari file sesuai tipe yang sudah ditentukan
+
+                        // Memasukkan setiap nilai json ke dalam array list resep program
+                        for(ResepMasakan rm : resep){
+                            FrameAplikasiResepMasakan.resepResepMasakan.add(rm);
+                        }
+                        dispose();
+                       }else{
+                           JOptionPane.showMessageDialog(this, "File import JSON tidak ditemukan. Export terlebih dahulu", "Import", JOptionPane.ERROR_MESSAGE);
                        }
-                       dispose();
                    }catch(IOException e){
                        JOptionPane.showMessageDialog(this, "Resep gagal di import", "Import", JOptionPane.ERROR_MESSAGE);
                        System.out.println("ERROR : " + e);
