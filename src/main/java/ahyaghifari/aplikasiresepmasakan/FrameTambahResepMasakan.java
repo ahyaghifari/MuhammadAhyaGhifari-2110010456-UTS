@@ -349,6 +349,16 @@ public class FrameTambahResepMasakan extends javax.swing.JFrame {
         String bahanBahan = taBahanBahan.getText();
         String caraMemasak = taCaraMemasak.getText();
         
+        // validasi form apakah sudah diisi atau belum
+        if(namaMasakan.equals("") || lamaMemasak.equals("") || bahanBahan.equals("") || caraMemasak.equals("")){
+        // jika masih ada yang belum diisi
+        
+            JOptionPane.showMessageDialog(this, "Input masih ada yang belum diisi", "INPUT", JOptionPane.ERROR_MESSAGE);
+                
+        // jika semua sudah terisi    
+        }else{
+            
+        
         // TAMBAH : menambahkan resep makanan ketilka status 0 atau sedang tambah
         if(status == 0){ 
             FrameAplikasiResepMasakan.resepResepMasakan.add(new ResepMasakan(idResep, namaMasakan, lamaMemasak, bahanBahan, caraMemasak));
@@ -382,6 +392,7 @@ public class FrameTambahResepMasakan extends javax.swing.JFrame {
             
         }
         dispose();
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
