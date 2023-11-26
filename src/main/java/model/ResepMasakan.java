@@ -1,11 +1,14 @@
 package model;
 public class ResepMasakan {
+    
+    // inisialisasi properti
     private String idResepMasakan;
     private String nama;
     private String lamaMemasak;
     private String bahanBahan;
     private String caraMemasak;
     
+    // konstruktor 1
     public ResepMasakan(String id, String nama, String lamaMemasak, String bahanBahan, String caraMemasak){
         idResepMasakan = id;
         this.nama = nama;
@@ -14,8 +17,11 @@ public class ResepMasakan {
         this.caraMemasak = caraMemasak;
     }
     
+    // konstruktor 2
     public ResepMasakan(){}
 
+    
+    // setter & getter
     public String getIdResepMasakan() {
         return idResepMasakan;
     }
